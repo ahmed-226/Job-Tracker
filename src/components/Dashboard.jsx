@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { deleteApplication, exportApplications } from '../store/jobApplicationsSlice'
@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [filteredApplications, setFilteredApplications] = useState(applications)
     const dispatch = useDispatch()
 
-    useState(() => {
+    useEffect(() => {
         setFilteredApplications(applications)
     }, [applications])
 

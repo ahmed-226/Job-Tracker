@@ -6,18 +6,19 @@ const SearchAndFilter = ({ applications, onFilteredResults }) => {
     const [dateFilter, setDateFilter] = useState('All')
 
     const handleSearch = (term, status, date) => {
-        let filtered = applications
+        try {
+            let filtered = [...applications] // Create a copy to avoid mutations
 
-        if (term) {
-            filtered = filtered.filter(app =>
-                app.companyName.toLowerCase().includes(term.toLowerCase()) ||
-                app.jobTitle.toLowerCase().includes(term.toLowerCase())
-            )
-        }
+            if (term && term.trim()) {
+                filtered = filtered.filter(app =>
+                    (app.companyName?.toLowerCase() || '').includes(term.toLowerCase()) ||
+                    (app.jobTitle?.toLowerCase() || '').includes(term.toLowerCase())
+                )
+            }
 
-        if (status !== 'All') {
-            filtered = filtered.filter(app => app.status === status)
-        }
+            if (status !== 'All') {
+                filtered = filtered.filter(app => app.status === status)
+            }
 
         if (date !== 'All') {
             const now = new Date()
@@ -38,12 +39,23 @@ const SearchAndFilter = ({ applications, onFilteredResults }) => {
             }
 
             if (filterDate) {
-                filtered = filtered.filter(app => new Date(app.appliedDate) >= filterDate)
+                filtered = filtered.filter(app => {
+                    try {
+                        const appDate = new Date(app.appliedDate)
+                        return appDate >= filterDate
+                    } catch {
+                        return false // Skip invalid dates
+                    }
+                })
             }
         }
 
         onFilteredResults(filtered)
+    } catch (error) {
+        console.error('Error filtering applications:', error)
+        onFilteredResults(applications) // Fallback to original data
     }
+}
 
     const handleSearchChange = (e) => {
         const term = e.target.value
