@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
             <nav className="bg-white shadow-xl border-b border-gray-100">
-                <div className="max-w-7xl mx-48 ">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between">
                         <div className="flex space-x-7">
                             <div>
@@ -51,7 +51,12 @@ const Layout = ({ children }) => {
                             </div>
                         </div>
                         <div className="md:hidden flex items-center">
-                            <button className="outline-none mobile-menu-button p-2" onClick={toggleMobileMenu}>
+                            <button 
+                                className="outline-none mobile-menu-button p-2" 
+                                onClick={toggleMobileMenu}
+                                aria-label="Toggle mobile menu"
+                                aria-expanded={isMobileMenuOpen}
+                            >
                                 <svg className="w-6 h-6 text-gray-600 hover:text-blue-600"
                                     fill="none"
                                     strokeLinecap="round"
@@ -59,6 +64,7 @@ const Layout = ({ children }) => {
                                     strokeWidth="2"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
+                                    aria-hidden="true"
                                 >
                                     <path d="M4 6h16M4 12h16M4 18h16"></path>
                                 </svg>
@@ -67,7 +73,7 @@ const Layout = ({ children }) => {
                     </div>
                 </div>
                 {isMobileMenuOpen && (
-                    <div className="md:hidden mobile-menu bg-white border-t border-gray-100">
+                    <div className="md:hidden mobile-menu bg-white border-t border-gray-100" role="navigation" aria-label="Mobile navigation">
                         <ul className="py-2">
                             <li>
                                 <Link
@@ -75,6 +81,7 @@ const Layout = ({ children }) => {
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={`block text-sm px-6 py-4 text-gray-600 font-semibold hover:bg-blue-50 hover:text-blue-600 transition duration-300 ${location.pathname === '/' ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600' : ''
                                         }`}
+                                    aria-current={location.pathname === '/' ? 'page' : undefined}
                                 >
                                     Dashboard
                                 </Link>
@@ -85,6 +92,7 @@ const Layout = ({ children }) => {
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={`block text-sm px-6 py-4 text-gray-600 font-semibold hover:bg-blue-50 hover:text-blue-600 transition duration-300 ${location.pathname === '/add' ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600' : ''
                                         }`}
+                                    aria-current={location.pathname === '/add' ? 'page' : undefined}
                                 >
                                     Add Job
                                 </Link>
