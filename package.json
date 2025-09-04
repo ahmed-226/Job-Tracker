@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:build": "docker build -t job-tracker .",
+    "docker:run": "docker run -p 3000:80 job-tracker",
+    "docker:dev": "docker-compose --profile dev up"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",
